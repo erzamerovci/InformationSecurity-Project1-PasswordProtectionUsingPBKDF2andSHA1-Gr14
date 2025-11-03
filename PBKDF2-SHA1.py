@@ -101,3 +101,25 @@ class UserManager:
         if not os.path.exists(storage_file):
             with open(storage_file, "w") as f:
                 json.dump({}, f)
+
+    def _load_users(self) -> Dict[str, str]:
+            with open(self.storage_file, "r") as f:
+                return json.load(f)
+
+    def _save_users(self, users: Dict[str, str]) -> None:
+        with open(self.storage_file, "w") as f:
+            json.dump(users, f, indent=2)
+
+    def add_user(self, username: str, password: str, hasher: PasswordHasher) -> None:
+        users = self._load_users()
+        if username in users:
+            raise PasswordError("User already exists.")
+        users[username] = hasher.hash_password(password)
+        self._save_users(users)
+        logging.info(f"User '{username}' added successfully.")
+
+    def verify_user(self, username: str, password: str, hasher: PasswordHasher) -> bool:
+        users = self._load_users()
+        if username not in users:
+            logging.warning(f"User '{username}' not found.")
+            return False
