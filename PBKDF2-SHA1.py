@@ -59,3 +59,34 @@ def hash_password(self, password: str) -> str:
             "hash": binascii.hexlify(dk).decode()
         }
         return json.dumps(metadata)
+
+def verify_password(self, stored_data: str, provided_password: str) -> bool:
+        """
+        Verify a password against stored data.
+        Automatically rehash if parameters are outdated.
+        """
+        try:
+            data: Dict[str, Any] = json.loads(stored_data)
+            required_keys = {"v", "algo", "iter", "salt", "hash"}
+            if not required_keys.issubset(data.keys()):
+                logging.error("Invalid stored password format.")
+                return False
+
+            salt = binascii.unhexlify(data["salt"])
+            stored_hash = binascii.unhexlify(data["hash"])
+            new_hash = hashlib.pbkdf2_hmac(
+                data["algo"],
+                provided_password.encode(),
+                salt,
+                int(data["iter"]),
+                dklen=len(stored_hash)
+            )
+
+            valid = hmac.compare_digest(stored_hash, new_hash)
+            if valid and (int(data["iter"]) != self.iterations or data["algo"] != self.algorithm):
+                logging.info("Rehashing password with new parameters...")
+                return "rehash_needed"
+            return valid
+        except (json.JSONDecodeError, KeyError, binascii.Error) as e:
+            logging.error(f"Failed to verify password: {e}")
+            return False
