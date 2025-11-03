@@ -90,3 +90,14 @@ def verify_password(self, stored_data: str, provided_password: str) -> bool:
         except (json.JSONDecodeError, KeyError, binascii.Error) as e:
             logging.error(f"Failed to verify password: {e}")
             return False
+        
+class UserManager:
+    """
+    Simple JSON-based user credential manager.
+    """
+
+    def __init__(self, storage_file: str = "users.json"):
+        self.storage_file = storage_file
+        if not os.path.exists(storage_file):
+            with open(storage_file, "w") as f:
+                json.dump({}, f)
