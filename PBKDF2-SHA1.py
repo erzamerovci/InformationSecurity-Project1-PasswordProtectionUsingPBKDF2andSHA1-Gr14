@@ -44,3 +44,18 @@ def validate_password_strength(self, password: str) -> None:
             raise PasswordError("Password must include at least one digit.")
         if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
             raise PasswordError("Password must include at least one special character.")
+
+
+def hash_password(self, password: str) -> str:
+        """Hash a password with PBKDF2-HMAC and return a JSON string with metadata."""
+        self.validate_password_strength(password)
+        salt = os.urandom(self.salt_length)
+        dk = hashlib.pbkdf2_hmac(self.algorithm, password.encode(), salt, self.iterations, dklen=self.hash_length)
+        metadata = {
+            "v": self.CURRENT_VERSION,
+            "algo": self.algorithm,
+            "iter": self.iterations,
+            "salt": binascii.hexlify(salt).decode(),
+            "hash": binascii.hexlify(dk).decode()
+        }
+        return json.dumps(metadata)
