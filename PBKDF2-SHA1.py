@@ -123,3 +123,23 @@ class UserManager:
         if username not in users:
             logging.warning(f"User '{username}' not found.")
             return False
+            
+        result = hasher.verify_password(users[username], password)
+        if result == "rehash_needed":
+            # Automatically update hash with new parameters
+            users[username] = hasher.hash_password(password)
+            self._save_users(users)
+            logging.info(f"User '{username}' password rehashed with updated parameters.")
+            return True
+        return result
+
+    def update_password(self, username: str, old_password: str, new_password: str, hasher: PasswordHasher) -> bool:
+        if self.verify_user(username, old_password, hasher):
+            users = self._load_users()
+            users[username] = hasher.hash_password(new_password)
+            self._save_users(users)
+            logging.info(f"User '{username}' password updated successfully.")
+            return True
+        else:
+            logging.warning(f"Password update failed for '{username}': old password incorrect.")
+            return False
