@@ -15,3 +15,10 @@
  </tr>
 </table>
 
+
+# Introduction
+
+The purpose of this project is to demonstrate how passwords can be securely stored and verified using the PBKDF2-SHA1 algorithm in Python.  
+Traditional password hashing methods such as MD5 or SHA1 alone are vulnerable to brute-force and rainbow-table attacks. PBKDF2 (Password-Based Key Derivation Function 2) increases security by applying a cryptographic hash multiple times and adding a random salt, making attacks computationally expensive and impractical.
+
+This implementation shows how to generate a strong salted hash for a user’s password and later verify it safely without ever storing or comparing the password in plain text.
