@@ -20,3 +20,9 @@ def hash_password_pbkdf2_sha1(password: str, iterations: int = DEFAULT_ITERATION
         raise TypeError("Password duhet të jetë string.")
 
     salt = generate_salt()
+    dk = hashlib.pbkdf2_hmac('sha1', password.encode('utf-8'), salt, iterations)
+
+    salt_hex = binascii.hexlify(salt).decode('utf-8')
+    dk_hex = binascii.hexlify(dk).decode('utf-8')
+
+    return f"{salt_hex}${dk_hex}"
