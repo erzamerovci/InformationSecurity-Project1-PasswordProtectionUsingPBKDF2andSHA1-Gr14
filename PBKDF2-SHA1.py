@@ -26,3 +26,8 @@ def hash_password_pbkdf2_sha1(password: str, iterations: int = DEFAULT_ITERATION
     dk_hex = binascii.hexlify(dk).decode('utf-8')
 
     return f"{salt_hex}${dk_hex}"
+
+def verify_password_pbkdf2_sha1(stored: str, password_attempt: str, iterations: int = DEFAULT_ITERATIONS) -> bool:
+    """
+    Verifikon nëse password_attempt përputhet me hash-in e ruajtur (salt$hash).
+    """
