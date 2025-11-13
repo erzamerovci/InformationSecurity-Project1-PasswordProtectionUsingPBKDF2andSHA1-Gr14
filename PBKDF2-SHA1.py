@@ -40,3 +40,14 @@ def verify_password_pbkdf2_sha1(stored: str, password_attempt: str, iterations: 
 
     dk_attempt = hashlib.pbkdf2_hmac('sha1', password_attempt.encode('utf-8'), salt, iterations)
     return hmac.compare_digest(dk_stored, dk_attempt)
+
+if __name__ == "__main__":
+    password = input("Enter a password to hash: ")
+    stored_hash = hash_password_pbkdf2_sha1(password)
+    print(f"\nStored hash: {stored_hash}")
+
+    attempt = input("\nEnter password again for verification: ")
+    if verify_password_pbkdf2_sha1(stored_hash, attempt):
+        print("Password is correct!")
+    else:
+        print("Password is incorrect.")
