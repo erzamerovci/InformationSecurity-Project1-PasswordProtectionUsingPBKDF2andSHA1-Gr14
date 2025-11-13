@@ -31,3 +31,12 @@ def verify_password_pbkdf2_sha1(stored: str, password_attempt: str, iterations: 
     """
     Verifikon nëse password_attempt përputhet me hash-in e ruajtur (salt$hash).
     """
+    try:
+        salt_hex, dk_hex = stored.split('$')
+        salt = binascii.unhexlify(salt_hex)
+        dk_stored = binascii.unhexlify(dk_hex)
+    except Exception:
+        return False
+
+    dk_attempt = hashlib.pbkdf2_hmac('sha1', password_attempt.encode('utf-8'), salt, iterations)
+    return hmac.compare_digest(dk_stored, dk_attempt)
