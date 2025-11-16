@@ -104,20 +104,6 @@ This checks if the user-entered password matches the stored hash by recalculatin
 
 This shows how the program can hash a user’s password and verify it safely without exposing the original value.
 
-## Why PBKDF2-SHA1 Matters
-
-PBKDF2 strengthens password protection by:
-
-  - Applying thousands of iterations, slowing down brute-force attacks.
-
-  - Using a unique salt per user, preventing rainbow-table reuse.
-
-  - Storing only the salted hash, never the plaintext password.
-
-  - Ensuring constant-time comparison to avoid timing attacks.
-
-This makes PBKDF2 a strong and NIST-approved key derivation method, widely used in modern security systems and password managers.
-
 ## Output
 Below is the program output showing the case when the password is verified successfully and the case when an incorrect password is entered. These examples clearly demonstrate the hashing and verification process using PBKDF2-SHA1.
 
@@ -130,4 +116,19 @@ This output shows the case where the entered password matches the stored hash su
 This output shows the case where the entered password does not match the stored hash.
 
 ![Correct Password](images/incorrectpassword.png)
+
+
+## Why PBKDF2-SHA1 Matters
+
+PBKDF2 strengthens password protection by:
+
+  - Applying thousands of iterations, slowing down brute-force attacks.
+
+  - Using a unique salt per user, preventing rainbow-table reuse.
+
+  - Storing only the salted hash, never the plaintext password.
+
+  - Ensuring constant-time comparison to avoid timing attacks.
+
+
 
