@@ -35,9 +35,7 @@ PBKDF2-HMAC-SHA1 works as follows:
 
   4. The resulting derived key (hash) is stored together with the salt in the format:
 
-    ```python
     salt$hash
-    ```
 
 
   5. When verifying, the salt is extracted, the same process is repeated on the attempted password, and both hashes are compared using a constant-time comparison (hmac.compare_digest) to prevent timing attacks.
