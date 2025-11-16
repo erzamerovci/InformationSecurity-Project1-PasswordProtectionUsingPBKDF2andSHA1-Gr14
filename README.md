@@ -25,7 +25,7 @@ This implementation shows how to generate a strong salted hash for a user’s pa
 
 ## Algorithm Overview
 
-PBKDF2-HMAC-SHA1 works as follows:
+PBKDF2-SHA1 works as follows:
 
   1. A random salt is generated for each password using secrets.token_bytes().
 
