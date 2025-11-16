@@ -118,3 +118,16 @@ PBKDF2 strengthens password protection by:
 
 This makes PBKDF2 a strong and NIST-approved key derivation method, widely used in modern security systems and password managers.
 
+## Output
+Below is the program output showing the case when the password is verified successfully and the case when an incorrect password is entered. These examples clearly demonstrate the hashing and verification process using PBKDF2-SHA1.
+
+### Correct Password
+This output shows the case where the entered password matches the stored hash successfully.
+
+![Correct Password](images/correctpassword.png)
+
+### Incorrect Password
+This output shows the case where the entered password does not match the stored hash.
+
+![Correct Password](images/incorrectpassword.png)
+
